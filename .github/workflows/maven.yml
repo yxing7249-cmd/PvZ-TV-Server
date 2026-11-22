@@ -2,6 +2,9 @@ name: Java CI with Maven
 
 on: [ push, pull_request, workflow_dispatch ]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -35,3 +38,11 @@ jobs:
         with:
           name: PvZ-TV-server
           path: target/PvZ-TV-server.jar
+
+      - name: Publish downloadable server JAR
+        if: github.event_name != 'pull_request'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: pvz-server-build-${{ github.run_number }}
+          name: PvZ TV Server build ${{ github.run_number }}
+          files: target/PvZ-TV-server.jar
