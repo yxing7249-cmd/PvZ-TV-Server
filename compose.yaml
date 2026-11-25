@@ -1,0 +1,23 @@
+services:
+  pvz-server:
+    build: .
+    restart: unless-stopped
+    command:
+      - java
+      - -Xms64m
+      - -Xmx384m
+      - -jar
+      - /app/PvZ-TV-server.jar
+      - --base=26667
+      - --shards=1
+      - --dashboard=false
+    ports:
+      - "26667:26667/tcp"
+      - "27667:27667/tcp"
+      - "27671:27671/tcp"
+      - "29667:29667/tcp"
+    volumes:
+      - pvz-data:/app/data
+
+volumes:
+  pvz-data:
